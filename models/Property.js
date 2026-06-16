@@ -1,11 +1,10 @@
 import { Schema, model, models } from "mongoose";
-import { unique } from "next/dist/build/utils";
 
 const PropertySchema = new Schema({
     owner: {
-        type: String.Types.ObjecId,
+        type: Schema.Types.ObjectId,
         ref: "User",
-        required: trusted
+        required: true
     },
     name: {
         type: String,
