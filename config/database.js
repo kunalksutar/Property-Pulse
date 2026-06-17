@@ -1,9 +1,20 @@
 import mongoose from "mongoose";
-import dns from "dns";
+// ================================================================================
+//                          For remote MongoDB Atlas
+// ================================================================================
 
 // Node.js c-ares cannot reach the router DNS (192.168.29.1:53) on this machine.
 // Redirect all DNS queries to a public resolver before any mongoose connection.
-dns.setServers(["8.8.8.8", "1.1.1.1"]);
+
+// import dns from "dns";
+// dns.setServers(["8.8.8.8", "1.1.1.1"]);
+
+// ================================================================================
+//                                    END
+// ================================================================================
+
+
+// Below is for local mongodb
 
 let connected = false;
 
