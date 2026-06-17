@@ -2,18 +2,25 @@ import React from 'react';
 import PropertyCard from '@/components/PropertyCard';
 
 // will return the properperties data from the mongodb atlas db
-async function fetchProperties () {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/properties`);
+async function fetchProperties() {
+  const url = `${process.env.NEXT_PUBLIC_API_DOMAIN}/properties`;
+  console.log("Fetching:", url);
 
-    if (!res.ok) {
-      throw new Error("Failed to fetch data");
-    }
+  const res = await fetch(url);
+  console.log("Status:", res.status);
 
-    return res.json();
-  } catch (error) {
-    console.log(error);
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error("API Error Response:");
+
+    throw new Error(
+      `Failed to fetch properties. Status: ${res.status}. Response: ${errorText}`
+    );
   }
+
+  const data = await res.json();
+  console.log("Properties received:", data);
+  return data;
 }
 
 const PropertiesPage = async () => {
