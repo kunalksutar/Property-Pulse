@@ -61,7 +61,7 @@ const PropertyPage = () => {
           {/* Property information */}
           <section className="bg-blue-50">
             <div className="container m-auto py-10 px-6">
-              <div className="grid grid-cols-1 md:grid-cols-70/30 w-full gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-[70%_28%] w-full gap-6">
                 <main>
                   <div
                     className="bg-white p-6 rounded-lg shadow-md text-center md:text-left"
