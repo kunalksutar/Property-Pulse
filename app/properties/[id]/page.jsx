@@ -6,6 +6,8 @@ import { fetchProperty } from '@/utils/requests';
 import PropertyHeaderImage from '@/components/PropertyHeaderImage';
 import PropertyDetails from '@/components/PropertyDetails';
 import { FaArrowLeft }from "react-icons/fa";
+import Spinner from '@/components/Spinner';
+import { SP } from 'next/dist/shared/lib/utils';
 
 // endpoint => /properties/[id]
 const PropertyPage = () => {
@@ -43,6 +45,7 @@ const PropertyPage = () => {
   // returning html
   return (
     <>
+      {loading && <Spinner loading = {loading}></Spinner>}
       {!loading && property && (
         <>
           {/* The image itself */}
