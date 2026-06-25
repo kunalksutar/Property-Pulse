@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useInsertionEffect } from "react";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,13 +7,27 @@ import logo from "@/assets/images/logo-white.png";
 import { FaGoogle } from "react-icons/fa";
 import profileDefault from "@/assets/images/profile.png";
 import { usePathname } from "next/navigation";
+import {signIn, signOut, useSession, getProviders} from "next-auth/react";
 
 const Navbar = () => {
+  const { data: session} = useSession();
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [provider, setProviders] = useState(false);
 
   const pathname = usePathname();
+
+  useEffect (() => {
+    const setAuthProviders = async() => {
+      const res = await getProviders();
+      setProviders(res);
+    }
+
+    setAuthProviders();
+  }, []);
+
+  console.log(provider);
 
   return (
     <nav className="bg-blue-700 border-b border-blue-500">
@@ -79,7 +93,7 @@ const Navbar = () => {
                   Properties
                 </Link>
 
-                {isLoggedIn && (
+                {session && (
                   <Link
                     href="/properties/add"
                     className={`${pathname === "/properties/add" ? "bg-black" : ""} text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}
@@ -92,7 +106,7 @@ const Navbar = () => {
           </div>
 
           {/* <!-- Right Side Menu (Logged Out) --> */}
-          {!isLoggedIn && (
+          {!session && (
             <div className="hidden md:block md:ml-6">
               <div className="flex items-center">
                 <button className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2">
@@ -105,7 +119,7 @@ const Navbar = () => {
 
           {/* <!-- Right Side Menu (Logged In) --> */}
 
-          { isLoggedIn && (
+          { session && (
             <body>
               <Link href="/messages" className="relative group">
                 <button
@@ -220,7 +234,7 @@ const Navbar = () => {
               Properties
             </Link>
 
-            {isLoggedIn && (
+            {session && (
               <Link
                 href="/properties/add"
                 className={`${pathname === "/properties/add" ? "bg-black" : ""} text-white block rounded-md px-3 py-2 text-base font-medium`}
@@ -230,7 +244,7 @@ const Navbar = () => {
             )}
 
             {/* If the user is not logged in the show a button for Login or Register */}
-            {!isLoggedIn && (
+            {!session && (
               <button className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2 my-4">
                 <FaGoogle className="text-white mr-2"></FaGoogle>
                 <span>Login or Register</span>
